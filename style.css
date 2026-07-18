@@ -1,0 +1,83 @@
+body{
+
+    margin:0;
+    background:#faf8f2;
+
+    font-family:
+    "Hiragino Mincho ProN",
+    "Yu Mincho",
+    serif;
+
+    color:#5c5650;
+
+}
+
+.container{
+
+    max-width:420px;
+
+    margin:auto;
+
+    text-align:center;
+
+    padding:60px 20px;
+
+}
+
+h1{
+
+    font-size:40px;
+
+    font-weight:normal;
+
+}
+
+.copy{
+
+    margin-top:30px;
+
+    line-height:1.8;
+
+    font-size:20px;
+
+}
+
+.sub{
+
+    color:#8d867f;
+
+    margin-bottom:40px;
+
+}
+
+button{
+
+    width:220px;
+
+    padding:15px;
+
+    margin:8px;
+
+    border:none;
+
+    border-radius:18px;
+
+    background:#f6dbe8;
+
+    color:#5c5650;
+
+    font-size:18px;
+
+}
+
+button:disabled{
+
+    opacity:.45;
+
+}
+
+.hidden{
+
+    display:none;
+
+}
