@@ -1,89 +1,133 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Beautiful Harmony</title>
 
-    <link rel="stylesheet" href="style.css">
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Beautiful Harmony</title>
+
+<link rel="stylesheet" href="style.css">
+
 </head>
 
 <body>
 
 <div class="container">
 
-    <h1>🌸 Beautiful Harmony 🌸</h1>
+    <!-- タイトル画面 -->
 
-    <p class="copy">
-        Create Balance.<br>
-        Create Beauty.
-    </p>
+    <section id="titleScreen">
 
-    <p class="sub">
-        Every piece has its perfect place.
-    </p>
+        <h1>🌸 Beautiful Harmony 🌸</h1>
 
-    <button id="playButton">
-        Play
-    </button>
+        <p class="copy">
+            Create Balance.<br>
+            Create Beauty.
+        </p>
 
-    <div id="themeMenu" class="hidden">
+        <p class="subcopy">
+            Every piece has its perfect place.
+        </p>
+
+        <button id="playButton">
+            Play
+        </button>
+
+    </section>
+
+
+
+    <!-- テーマ選択 -->
+
+    <section id="themeScreen" class="hidden">
 
         <h2>Theme</h2>
 
-       <button id="colorsButton">🎨 Colors</button>
-        <button disabled>💐 Bouquet</button>
-        <button disabled>👩 Girls</button>
-        <button disabled>⚔️ Generals</button>
-<div id="board" class="hidden">
+        <button id="colorsButton">
+            🎨 Colors
+        </button>
 
-    <div class="grid">
+        <button disabled>
+            💐 Bouquet
+        </button>
 
-        <div class="tile">◇</div>
-        <div class="tile">◇</div>
-        <div class="tile">◇</div>
-        <div class="tile">◇</div>
-        <div class="tile">◇</div>
+        <button disabled>
+            👩 Girls
+        </button>
 
-        <div class="tile">◇</div>
-        <div class="tile">◇</div>
-        <div class="tile">◇</div>
-        <div class="tile">◇</div>
-        <div class="tile">◇</div>
+        <button disabled>
+            ⚔️ Generals
+        </button>
 
-        <div class="tile">◇</div>
-        <div class="tile">◇</div>
-        <div class="tile">◇</div>
-        <div class="tile">◇</div>
-        <div class="tile">◇</div>
+        <div class="best">
 
-        <div class="tile">◇</div>
-        <div class="tile">◇</div>
-        <div class="tile">◇</div>
-        <div class="tile">◇</div>
-        <div class="tile">◇</div>
+            <p>Best Harmony</p>
 
-        <div class="tile">◇</div>
-        <div class="tile">◇</div>
-        <div class="tile">◇</div>
-        <div class="tile">◇</div>
-        <div class="tile">◇</div>
+            <h3>--%</h3>
 
-    </div>
+        </div>
 
-    <button id="finishButton">
-        満足
-    </button>
+    </section>
 
-</div>
-        <h3>Best Harmony</h3>
-        <p>--%</p>
 
-    </div>
+
+    <!-- Colors画面 -->
+
+    <section id="colorsScreen" class="hidden">
+
+        <h2>🎨 Colors</h2>
+
+        <div id="board">
+
+            <!-- 25枚 -->
+
+            <div class="tile">♥</div>
+            <div class="tile">♦</div>
+            <div class="tile">♠</div>
+            <div class="tile">♣</div>
+            <div class="tile">♥</div>
+
+            <div class="tile">♦</div>
+            <div class="tile">♠</div>
+            <div class="tile">♣</div>
+            <div class="tile">♥</div>
+            <div class="tile">♦</div>
+
+            <div class="tile">♠</div>
+            <div class="tile">♣</div>
+            <div class="tile">♥</div>
+            <div class="tile">♦</div>
+            <div class="tile">♠</div>
+
+            <div class="tile">♣</div>
+            <div class="tile">♥</div>
+            <div class="tile">♦</div>
+            <div class="tile">♠</div>
+            <div class="tile">♣</div>
+
+            <div class="tile">♥</div>
+            <div class="tile">♦</div>
+            <div class="tile">♠</div>
+            <div class="tile">♣</div>
+            <div class="tile">♥</div>
+
+        </div>
+
+        <button id="finishButton">
+
+            満足
+
+        </button>
+
+    </section>
 
 </div>
 
 <script src="main.js"></script>
 
 </body>
+
 </html>
