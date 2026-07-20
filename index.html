@@ -4,7 +4,6 @@
 <head>
 
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Beautiful Harmony</title>
@@ -15,25 +14,34 @@
 
 <body>
 
+<!-- 花びらレイヤー -->
+<div id="petals"></div>
+
 <div class="container">
 
-    <!-- タイトル画面 -->
+    <!-- タイトル -->
 
     <section id="titleScreen">
 
-        <h1>🌸 Beautiful Harmony 🌸</h1>
+        <h1>Beautiful Harmony</h1>
 
         <p class="copy">
+
             Create Balance.<br>
             Create Beauty.
+
         </p>
 
         <p class="subcopy">
+
             Every piece has its perfect place.
+
         </p>
 
         <button id="playButton">
+
             Play
+
         </button>
 
     </section>
@@ -46,23 +54,35 @@
 
         <h2>Theme</h2>
 
-        <button id="colorsButton">
-            🎨 Colors
-        </button>
+        <div class="themeButtons">
 
-        <button disabled>
-            💐 Bouquet
-        </button>
+            <button id="colorsButton">
 
-        <button disabled>
-            👩 Girls
-        </button>
+                🎨 Colors
 
-        <button disabled>
-            ⚔️ Generals
-        </button>
+            </button>
 
-        <div class="best">
+            <button disabled>
+
+                💐 Bouquet
+
+            </button>
+
+            <button disabled>
+
+                👩 Girls
+
+            </button>
+
+            <button disabled>
+
+                ⚔️ Generals
+
+            </button>
+
+        </div>
+
+        <div class="bestBox">
 
             <p>Best Harmony</p>
 
@@ -74,51 +94,57 @@
 
 
 
-    <!-- Colors画面 -->
+    <!-- Colors -->
 
     <section id="colorsScreen" class="hidden">
 
-        <h2>🎨 Colors</h2>
+        <div class="header">
 
-        <div id="board">
+            <h2>🎨 Colors</h2>
 
-            <!-- 25枚 -->
+            <button id="backButton">
 
-            <div class="tile">♥</div>
-            <div class="tile">♦</div>
-            <div class="tile">♠</div>
-            <div class="tile">♣</div>
-            <div class="tile">♥</div>
+                ← Theme
 
-            <div class="tile">♦</div>
-            <div class="tile">♠</div>
-            <div class="tile">♣</div>
-            <div class="tile">♥</div>
-            <div class="tile">♦</div>
-
-            <div class="tile">♠</div>
-            <div class="tile">♣</div>
-            <div class="tile">♥</div>
-            <div class="tile">♦</div>
-            <div class="tile">♠</div>
-
-            <div class="tile">♣</div>
-            <div class="tile">♥</div>
-            <div class="tile">♦</div>
-            <div class="tile">♠</div>
-            <div class="tile">♣</div>
-
-            <div class="tile">♥</div>
-            <div class="tile">♦</div>
-            <div class="tile">♠</div>
-            <div class="tile">♣</div>
-            <div class="tile">♥</div>
+            </button>
 
         </div>
+
+        <!-- JavaScriptがここへ25枚生成 -->
+
+        <div id="board"></div>
 
         <button id="finishButton">
 
             満足
+
+        </button>
+
+    </section>
+
+
+
+    <!-- 結果画面（まだ仮） -->
+
+    <section id="resultScreen" class="hidden">
+
+        <h2>Harmony</h2>
+
+        <h1 id="scoreText">
+
+            92%
+
+        </h1>
+
+        <p>
+
+            ※採点画面は次回実装
+
+        </p>
+
+        <button id="retryButton">
+
+            Themeへ戻る
 
         </button>
 
