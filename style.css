@@ -1,15 +1,30 @@
+/* =======================================================
+   Beautiful Harmony
+   Version 0.4.0
+======================================================= */
+
+*{
+    box-sizing:border-box;
+}
+
 body{
 
     margin:0;
-    background:#fbfaf5;
-    color:#5e5750;
+
+    background:#fbf9f4;
+
+    color:#5d5650;
 
     font-family:
-    "Hiragino Mincho ProN",
-    "Yu Mincho",
-    serif;
+        "Hiragino Mincho ProN",
+        "Yu Mincho",
+        serif;
+
+    overflow-x:hidden;
 
 }
+
+/* コンテナ */
 
 .container{
 
@@ -17,11 +32,17 @@ body{
 
     margin:auto;
 
-    padding:60px 25px;
+    padding:60px 24px 80px;
 
     text-align:center;
 
+    position:relative;
+
+    z-index:2;
+
 }
+
+/* 非表示 */
 
 .hidden{
 
@@ -29,25 +50,88 @@ body{
 
 }
 
-/* タイトル */
+/* --------------------------
+   花びら
+--------------------------- */
 
-h1{
+#petals{
 
-    font-size:44px;
+    position:fixed;
 
-    font-weight:normal;
+    inset:0;
 
-    margin-bottom:25px;
+    pointer-events:none;
 
-    letter-spacing:2px;
+    overflow:hidden;
+
+    z-index:1;
 
 }
 
-h2{
+.petal{
+
+    position:absolute;
+
+    width:14px;
+
+    height:10px;
+
+    background:#f6d5df;
+
+    border-radius:70% 30% 70% 30%;
+
+    opacity:.55;
+
+    animation:float 18s linear infinite;
+
+}
+
+@keyframes float{
+
+    0%{
+
+        transform:
+            translateY(-10vh)
+            translateX(0)
+            rotate(0deg);
+
+    }
+
+    50%{
+
+        transform:
+            translateY(45vh)
+            translateX(18px)
+            rotate(120deg);
+
+    }
+
+    100%{
+
+        transform:
+            translateY(110vh)
+            translateX(-12px)
+            rotate(240deg);
+
+    }
+
+}
+
+/* --------------------------
+   タイトル
+--------------------------- */
+
+h1{
+
+    font-size:42px;
 
     font-weight:normal;
 
-    margin-bottom:30px;
+    margin-top:40px;
+
+    margin-bottom:24px;
+
+    letter-spacing:2px;
 
 }
 
@@ -65,27 +149,27 @@ h2{
 
     color:#908983;
 
-    margin-bottom:45px;
+    margin-bottom:46px;
 
 }
 
-/* ボタン */
+/* --------------------------
+   ボタン
+--------------------------- */
 
 button{
 
     width:240px;
 
-    padding:16px;
+    padding:15px;
 
     margin:8px;
 
     border:none;
 
-    border-radius:22px;
+    background:#f4dbe6;
 
-    background:#f6dbe8;
-
-    color:#5e5750;
+    color:#5d5650;
 
     font-size:18px;
 
@@ -93,22 +177,23 @@ button{
 
     cursor:pointer;
 
-    transition:.25s;
+    transition:.2s;
 
     box-shadow:
-        0 6px 18px rgba(0,0,0,.08);
+
+        0 6px 16px rgba(0,0,0,.08);
 
 }
 
 button:hover{
 
-    transform:translateY(-3px);
+    transform:translateY(-2px);
 
 }
 
 button:active{
 
-    transform:scale(.97);
+    transform:scale(.98);
 
 }
 
@@ -116,44 +201,83 @@ button:disabled{
 
     opacity:.45;
 
-    transform:none;
+}
+
+/* --------------------------
+   Theme
+--------------------------- */
+
+.themeButtons{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
 
 }
 
-/* ベスト */
+.bestBox{
 
-.best{
-
-    margin-top:35px;
+    margin-top:40px;
 
 }
 
-/* 盤面 */
+/* --------------------------
+   Colors
+--------------------------- */
+
+.header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:28px;
+
+}
+
+#backButton{
+
+    width:110px;
+
+    font-size:14px;
+
+}
+
+/* --------------------------
+   盤面
+--------------------------- */
 
 #board{
 
-    width:340px;
+    width:330px;
 
-    margin:35px auto;
+    margin:0 auto 34px;
 
     display:grid;
 
-    grid-template-columns:
-        repeat(5,60px);
+    grid-template-columns:repeat(5,58px);
 
-    gap:8px;
+    gap:4px;
 
     justify-content:center;
 
 }
 
-/* タイル */
+/* --------------------------
+   ダイヤタイル
+--------------------------- */
 
 .tile{
 
-    width:56px;
+    width:58px;
 
-    height:56px;
+    height:58px;
+
+    transform:rotate(45deg);
 
     display:flex;
 
@@ -161,85 +285,90 @@ button:disabled{
 
     justify-content:center;
 
-    background:#f7dce7;
-
-    color:#6b5b5b;
+    color:white;
 
     font-size:22px;
 
-    border-radius:14px;
-
-    transform:rotate(45deg);
-
-    transition:.2s;
-
-    box-shadow:
-        0 3px 8px rgba(0,0,0,.08);
-
-}
-
-/* マークだけ戻す */
-
-.tile{
-
-    position:relative;
-
-}
-
-.tile::after{
-
-    content:attr(data-symbol);
-
-}
-
-.tile{
-
-    overflow:hidden;
-
-}
-
-.tile{
-
-    display:flex;
-
-}
-
-.tile{
-
-    font-size:24px;
-
-}
-
-.tile{
-
-    transform:rotate(45deg);
-
-}
-
-.tile{
+    font-weight:bold;
 
     user-select:none;
 
+    cursor:pointer;
+
+    transition:.18s;
+
 }
 
-.tile>*{
+.tile span{
 
     transform:rotate(-45deg);
 
 }
 
-/* 仮対応 */
+.tile:hover{
 
-.tile{
-
-    line-height:56px;
+    transform:
+        rotate(45deg)
+        translateY(-3px);
 
 }
 
-/* 満足ボタン */
+/* パステルカラー */
+
+.pink{
+
+    background:#f5cfdc;
+
+}
+
+.rose{
+
+    background:#e8b7c9;
+
+}
+
+.blue{
+
+    background:#cfe7f7;
+
+}
+
+.purple{
+
+    background:#ddd3f6;
+
+}
+
+.green{
+
+    background:#d9eccd;
+
+}
+
+.silver{
+
+    background:#d9d9df;
+
+}
+
+/* --------------------------
+   満足ボタン
+--------------------------- */
 
 #finishButton{
 
-    margin-top:25px;
+    margin-top:18px;
+
+}
+
+/* --------------------------
+   結果
+--------------------------- */
+
+#scoreText{
+
+    font-size:64px;
+
+    margin:20px 0;
 
 }
