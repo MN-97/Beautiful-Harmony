@@ -84,19 +84,6 @@ body{
 
 }
 
-    width:14px;
-
-    height:10px;
-
-    background:#f6d5df;
-
-    border-radius:70% 30% 70% 30%;
-
-    opacity:.55;
-
-    animation:float 18s linear infinite;
-
-}
 
 @keyframes float{
 
