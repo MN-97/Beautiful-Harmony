@@ -91,7 +91,7 @@ function shuffle(array){
    盤面生成
 ------------------------- */
 
-function function createBoard(){
+function createBoard(){
 
     board.innerHTML="";
 
@@ -117,52 +117,7 @@ function function createBoard(){
 
     }
 
-}{
-
-    board.innerHTML="";
-
-    const c=[...colors];
-    const s=[...symbols];
-
-    shuffle(c);
-    shuffle(s);
-
-    const size = 58;
-    const stepX = 58;
-    const stepY = 46;
-    const offset = 29;
-
-    for(let row=0; row<5; row++){
-
-        for(let col=0; col<5; col++){
-
-            const i=row*5+col;
-
-            const tile=document.createElement("div");
-
-            tile.className="tile "+c[i];
-
-            const span=document.createElement("span");
-
-            span.textContent=s[i];
-
-            tile.appendChild(span);
-
-            const x = col*stepX + (row%2===0 ? offset : 0);
-            const y = row*stepY;
-
-            tile.style.left=x+"px";
-            tile.style.top=y+"px";
-
-            board.appendChild(tile);
-
-        }
-
-    }
-
 }
-        
-
 /* -------------------------
    画面遷移
 ------------------------- */
