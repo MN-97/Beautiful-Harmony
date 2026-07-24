@@ -70,6 +70,10 @@ body{
 
 .petal{
 
+    position:absolute;
+
+    top:-20px;
+
     width:14px;
 
     height:10px;
