@@ -3,6 +3,7 @@
    Version 0.4.0
 ========================================== */
 
+
 const titleScreen = document.getElementById("titleScreen");
 const themeScreen = document.getElementById("themeScreen");
 const colorsScreen = document.getElementById("colorsScreen");
