@@ -96,30 +96,46 @@ function createBoard(){
     board.innerHTML="";
 
     const c=[...colors];
-
     const s=[...symbols];
 
     shuffle(c);
-
     shuffle(s);
 
-    for(let i=0;i<25;i++){
+    const size = 58;
+    const stepX = 58;
+    const stepY = 46;
+    const offset = 29;
 
-        const tile=document.createElement("div");
+    for(let row=0; row<5; row++){
 
-        tile.className="tile "+c[i];
+        for(let col=0; col<5; col++){
 
-        const span=document.createElement("span");
+            const i=row*5+col;
 
-        span.textContent=s[i];
+            const tile=document.createElement("div");
 
-        tile.appendChild(span);
+            tile.className="tile "+c[i];
 
-        board.appendChild(tile);
+            const span=document.createElement("span");
+
+            span.textContent=s[i];
+
+            tile.appendChild(span);
+
+            const x = col*stepX + (row%2===0 ? offset : 0);
+            const y = row*stepY;
+
+            tile.style.left=x+"px";
+            tile.style.top=y+"px";
+
+            board.appendChild(tile);
+
+        }
 
     }
 
 }
+        
 
 /* -------------------------
    画面遷移
