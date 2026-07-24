@@ -91,7 +91,33 @@ function shuffle(array){
    盤面生成
 ------------------------- */
 
-function createBoard(){
+function function createBoard(){
+
+    board.innerHTML="";
+
+    const c=[...colors];
+    const s=[...symbols];
+
+    shuffle(c);
+    shuffle(s);
+
+    for(let i=0;i<25;i++){
+
+        const tile=document.createElement("div");
+
+        tile.className="tile "+c[i];
+
+        const span=document.createElement("span");
+
+        span.textContent=s[i];
+
+        tile.appendChild(span);
+
+        board.appendChild(tile);
+
+    }
+
+}{
 
     board.innerHTML="";
 
