@@ -1,8 +1,7 @@
-/* ==========================================
+/* =======================================================
    Beautiful Harmony
-   Version 0.4.0
-========================================== */
-
+   Version 0.5.0
+======================================================= */
 
 const titleScreen = document.getElementById("titleScreen");
 const themeScreen = document.getElementById("themeScreen");
@@ -19,22 +18,37 @@ const board = document.getElementById("board");
 const petals = document.getElementById("petals");
 
 /* -------------------------
-   花びら
+   花びら生成
 ------------------------- */
 
-for(let i=0;i<5;i++){
+petals.innerHTML = "";
 
-    const petal=document.createElement("div");
+for(let i = 0; i < 18; i++){
 
-    petal.className="petal";
+    const petal = document.createElement("div");
 
-    petal.style.left=Math.random()*100+"vw";
+    petal.className = "petal";
 
-    petal.style.animationDelay=
-        (Math.random()*18)+"s";
+    petal.style.left = Math.random()*100 + "vw";
 
-    petal.style.animationDuration=
-        (16+Math.random()*8)+"s";
+    petal.style.top = -(Math.random()*120) + "px";
+
+    petal.style.opacity =
+        (0.25 + Math.random()*0.45);
+
+    petal.style.animationDelay =
+        -(Math.random()*20) + "s";
+
+    petal.style.animationDuration =
+        (14 + Math.random()*8) + "s";
+
+    petal.style.setProperty(
+        "--drift",
+        (-70 + Math.random()*140) + "px"
+    );
+
+    petal.style.transform =
+        "scale(" + (0.7 + Math.random()*0.8) + ")";
 
     petals.appendChild(petal);
 
