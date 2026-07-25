@@ -279,19 +279,22 @@ button:disabled{
 
 #board{
 
-    width:312px;
+    width:340px;
 
-    margin:0 auto 28px;
+    margin:0 auto 34px;
 
     display:grid;
 
     grid-template-columns:repeat(5,60px);
 
-    grid-auto-rows:52px;
+    grid-auto-rows:42px;
 
     justify-content:center;
 
+    position:relative;
+
 }
+
 /* --------------------------
    ダイヤタイル
 --------------------------- */
