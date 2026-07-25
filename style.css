@@ -333,7 +333,12 @@ button:disabled{
 
 .tile span{
 
-    transform:rotate(-45deg);
+    clip-path:polygon(
+    50% 0%,
+    100% 50%,
+    50% 100%,
+    0% 50%
+);
 
     color:#fffdf8;
 
