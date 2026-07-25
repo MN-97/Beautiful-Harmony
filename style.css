@@ -339,6 +339,7 @@ button:disabled{
     50% 100%,
     0% 50%
 );
+overflow:hidden;
 
     color:#fffdf8;
 
