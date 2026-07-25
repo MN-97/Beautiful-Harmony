@@ -302,7 +302,13 @@ button:disabled{
 
     height:60px;
 
-    transform:rotate(45deg);
+    clip-path:polygon(
+    50% 0%,
+    100% 50%,
+    50% 100%,
+    0% 50%
+);
+overflow:hidden;
 
     display:flex;
 
@@ -333,13 +339,7 @@ button:disabled{
 
 .tile span{
 
-    clip-path:polygon(
-    50% 0%,
-    100% 50%,
-    50% 100%,
-    0% 50%
-);
-overflow:hidden;
+    
 
     color:#fffdf8;
 
