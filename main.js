@@ -101,7 +101,6 @@ function shuffle(array){
     }
 
 }
-
 /* -------------------------
    盤面生成
 ------------------------- */
@@ -116,23 +115,65 @@ function createBoard(){
     shuffle(c);
     shuffle(s);
 
+    // ティアラを付ける5枚をランダムに決定
+    const tiaras=[];
+
+    while(tiaras.length<5){
+
+        const n=Math.floor(Math.random()*25);
+
+        if(!tiaras.includes(n)){
+
+            tiaras.push(n);
+
+        }
+
+    }
+
     for(let i=0;i<25;i++){
 
         const tile=document.createElement("div");
 
         tile.className="tile "+c[i];
 
+        // 奇数行だけ半マスずらす
+        const row=Math.floor(i/5);
+
+        if(row%2===1){
+
+            tile.classList.add("offset");
+
+        }
+
+        // マーク
         const span=document.createElement("span");
+
+        span.className="symbol";
 
         span.textContent=s[i];
 
         tile.appendChild(span);
+
+        // ティアラ
+        if(tiaras.includes(i)){
+
+            const crown=document.createElement("div");
+
+            crown.className="crown";
+
+            crown.textContent="👑";
+
+            tile.appendChild(crown);
+
+        }
 
         board.appendChild(tile);
 
     }
 
 }
+
+
 /* -------------------------
    画面遷移
 ------------------------- */
