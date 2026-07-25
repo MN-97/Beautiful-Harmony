@@ -70,9 +70,11 @@ body{
 
 .petal{
 
-    position:absolute;
+    position:fixed;
 
-    top:-20px;
+    top:-40px;
+
+    left:0;
 
     width:14px;
 
@@ -84,7 +86,13 @@ body{
 
     opacity:.55;
 
-    animation:float 18s linear infinite;
+    pointer-events:none;
+
+    z-index:1;
+
+    animation:float linear infinite;
+
+    filter:drop-shadow(0 0 2px rgba(255,255,255,.7));
 
 }
 
@@ -96,27 +104,40 @@ body{
     0%{
 
         transform:
-            translateY(-10vh)
-            translateX(0)
+            translate3d(0,-60px,0)
             rotate(0deg);
+
+    }
+
+    25%{
+
+        transform:
+            translate3d(calc(var(--drift) * .4),25vh,0)
+            rotate(90deg);
 
     }
 
     50%{
 
         transform:
-            translateY(45vh)
-            translateX(18px)
-            rotate(120deg);
+            translate3d(calc(var(--drift) * .8),55vh,0)
+            rotate(180deg);
+
+    }
+
+    75%{
+
+        transform:
+            translate3d(calc(var(--drift) * .5),80vh,0)
+            rotate(260deg);
 
     }
 
     100%{
 
         transform:
-            translateY(110vh)
-            translateX(-12px)
-            rotate(240deg);
+            translate3d(var(--drift),115vh,0)
+            rotate(360deg);
 
     }
 
