@@ -505,3 +505,11 @@ button:disabled{
     }
 
 }
+.tile.dragging{
+
+    transform:
+
+        rotate(45deg)
+        scale(1.14);
+
+}
