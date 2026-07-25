@@ -298,10 +298,9 @@ button:disabled{
 
 .tile{
 
+    width:60px;
 
-    width:58px;
-
-    height:58px;
+    height:60px;
 
     transform:rotate(45deg);
 
@@ -311,9 +310,15 @@ button:disabled{
 
     align-items:center;
 
+    position:relative;
+
     cursor:pointer;
 
-    transition:.2s;
+    transition:
+
+        transform .18s,
+
+        box-shadow .18s;
 
     box-shadow:
 
@@ -321,7 +326,7 @@ button:disabled{
 
         inset 0 -3px 5px rgba(0,0,0,.08),
 
-        0 5px 10px rgba(0,0,0,.12);
+        0 4px 10px rgba(0,0,0,.10);
 
 }
 
