@@ -109,13 +109,14 @@ function createBoard(){
 
     board.innerHTML="";
 
+    // 色・マークをコピーしてシャッフル
     const c=[...colors];
     const s=[...symbols];
 
     shuffle(c);
     shuffle(s);
 
-    // ティアラを付ける5枚をランダムに決定
+    // ティアラ5枚
     const tiaras=[];
 
     while(tiaras.length<5){
@@ -130,48 +131,58 @@ function createBoard(){
 
     }
 
+    let tileIndex=0;
+
     for(let row=0; row<5; row++){
 
-    const cols = (row % 2 === 0) ? 5 : 7;
+        // 1・3行目だけ7枚
+        const cols=(row%2===0)?5:7;
 
-    for(let col=0; col<cols; col++){
+        for(let col=0; col<cols; col++){
 
-        const tile=document.createElement("div");
+            const tile=document.createElement("div");
 
-        tile.className="tile "+color;
+            // 色
+            const color=c[Math.floor(Math.random()*c.length)];
 
-        // 奇数行だけ半マスずらす
-        const row=Math.floor(i/5);
+            tile.className="tile "+color;
 
-        if(row%2===1){
+            // 5枚行は中央に寄せる
+            if(cols===5){
 
-            tile.classList.add("offset");
+                tile.style.marginLeft="30px";
+
+            }
+
+            // マーク
+            const span=document.createElement("span");
+
+            span.className="symbol";
+
+            const symbol=s[Math.floor(Math.random()*s.length)];
+
+            span.textContent=symbol;
+
+            tile.appendChild(span);
+
+            // ティアラ
+            if(tiaras.includes(tileIndex)){
+
+                const crown=document.createElement("div");
+
+                crown.className="crown";
+
+                crown.textContent="👑";
+
+                tile.appendChild(crown);
+
+            }
+
+            board.appendChild(tile);
+
+            tileIndex++;
 
         }
-
-        // マーク
-        const span=document.createElement("span");
-
-        span.className="symbol";
-
-        span.textContent=symbol;
-
-        tile.appendChild(span);
-
-        // ティアラ
-        if(tiaras.includes(i)){
-
-            const crown=document.createElement("div");
-
-            crown.className="crown";
-
-            crown.textContent="👑";
-
-            tile.appendChild(crown);
-
-        }
-
-        board.appendChild(tile);
 
     }
 
