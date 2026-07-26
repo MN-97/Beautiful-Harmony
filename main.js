@@ -120,7 +120,7 @@ function createBoard(){
 
     while(tiaras.length<5){
 
-        const n=Math.floor(Math.random()*25);
+        const n=Math.floor(Math.random()*29);
 
         if(!tiaras.includes(n)){
 
