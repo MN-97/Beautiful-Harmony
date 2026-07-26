@@ -462,9 +462,11 @@ overflow:hidden;
 
     left:50%;
 
-    transform:
-        translateX(-50%)
-        rotate(-45deg);
+
+    transform:rotate(-45deg);
+left:50%;
+transform:translateX(-50%) rotate(-45deg);
+
 
     font-size:13px;
 
