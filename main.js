@@ -130,7 +130,11 @@ function createBoard(){
 
     }
 
-    for(let i=0;i<25;i++){
+    for(let row=0; row<5; row++){
+
+    const cols = (row % 2 === 0) ? 5 : 7;
+
+    for(let col=0; col<cols; col++){
 
         const tile=document.createElement("div");
 
