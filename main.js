@@ -154,7 +154,7 @@ function createBoard(){
 
         span.className="symbol";
 
-        span.textContent=s[i];
+        span.textContent=symbol;
 
         tile.appendChild(span);
 
