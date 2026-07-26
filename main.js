@@ -138,7 +138,7 @@ function createBoard(){
 
         const tile=document.createElement("div");
 
-        tile.className="tile "+c[i];
+        tile.className="tile "+color;
 
         // 奇数行だけ半マスずらす
         const row=Math.floor(i/5);
