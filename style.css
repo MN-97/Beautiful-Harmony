@@ -457,11 +457,7 @@ overflow:hidden;
 
     left:50%;
 
-
-    transform:rotate(-45deg);
-left:50%;
-transform:translateX(-50%) rotate(-45deg);
-
+    transform:translateX(-50%) rotate(-45deg);
 
     font-size:13px;
 
@@ -472,13 +468,13 @@ transform:translateX(-50%) rotate(-45deg);
     z-index:4;
 
     filter:
-
         drop-shadow(0 0 2px rgba(255,245,180,.9))
         drop-shadow(0 0 4px rgba(255,230,120,.5));
 
     animation:crownGlow 2.8s ease-in-out infinite;
 
 }
+    
 
 @keyframes crownGlow{
 
