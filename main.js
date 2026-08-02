@@ -109,19 +109,17 @@ function createBoard(){
 
     board.innerHTML="";
 
-    // 色・マークをコピーしてシャッフル
     const c=[...colors];
     const s=[...symbols];
 
     shuffle(c);
     shuffle(s);
 
-    // ティアラ5枚
     const tiaras=[];
 
     while(tiaras.length<5){
 
-        const n=Math.floor(Math.random()*29);
+        const n=Math.floor(Math.random()*25);
 
         if(!tiaras.includes(n)){
 
@@ -131,41 +129,29 @@ function createBoard(){
 
     }
 
-    let tileIndex=0;
+    const STEP_X=62;
+    const STEP_Y=50;
+    const OFFSET=31;
 
-    for(let row=0; row<5; row++){
+    for(let row=0;row<5;row++){
 
-        // 1・3行目だけ7
+        for(let col=0;col<5;col++){
 
-        for(let col=0; col<cols; col++){
+            const i=row*5+col;
 
             const tile=document.createElement("div");
 
-            // 色
-            const color=c[Math.floor(Math.random()*c.length)];
+            tile.className="tile "+c[i];
 
-            tile.className="tile "+color;
-
-            // 5枚行は中央に寄せる
-            if(cols===5){
-
-                tile.style.marginLeft="30px";
-
-            }
-
-            // マーク
             const span=document.createElement("span");
 
             span.className="symbol";
 
-            const symbol=s[Math.floor(Math.random()*s.length)];
-
-            span.textContent=symbol;
+            span.textContent=s[i];
 
             tile.appendChild(span);
 
-            // ティアラ
-            if(tiaras.includes(tileIndex)){
+            if(tiaras.includes(i)){
 
                 const crown=document.createElement("div");
 
@@ -177,9 +163,13 @@ function createBoard(){
 
             }
 
-            board.appendChild(tile);
+            const x=col*STEP_X+(row%2)*OFFSET;
+            const y=row*STEP_Y;
 
-            tileIndex++;
+            tile.style.left=x+"px";
+            tile.style.top=y+"px";
+
+            board.appendChild(tile);
 
         }
 
