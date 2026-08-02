@@ -135,8 +135,7 @@ function createBoard(){
 
     for(let row=0; row<5; row++){
 
-        // 1・3行目だけ7枚
-        const cols=(row%2===0)?5:7;
+        // 1・3行目だけ7
 
         for(let col=0; col<cols; col++){
 
