@@ -279,17 +279,13 @@ button:disabled{
 
 #board{
 
-    width:340px;
+    position:relative;
+
+    width:360px;
+
+    height:330px;
 
     margin:0 auto 34px;
-
-    display:grid;
-
-    grid-template-columns:repeat(5,60px);
-
-    grid-auto-rows:42px;
-
-    justify-content:center;
 
 }
 
