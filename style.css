@@ -514,3 +514,7 @@ button:disabled{
         scale(1.14);
 
 }
+
+.tile{
+    border: 3px solid red !important;
+}
