@@ -1,450 +1,153 @@
-/* =======================================================
-   Beautiful Harmony
-   Version 0.6.1
-======================================================= */
+<!DOCTYPE html>
+<html lang="ja">
 
-const titleScreen = document.getElementById("titleScreen");
-const themeScreen = document.getElementById("themeScreen");
-const colorsScreen = document.getElementById("colorsScreen");
-const resultScreen = document.getElementById("resultScreen");
+<head>
 
-const playButton = document.getElementById("playButton");
-const colorsButton = document.getElementById("colorsButton");
-const backButton = document.getElementById("backButton");
-const finishButton = document.getElementById("finishButton");
-const retryButton = document.getElementById("retryButton");
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-const board = document.getElementById("board");
-const petals = document.getElementById("petals");
+<title>Beautiful Harmony</title>
 
+<link rel="stylesheet" href="style.css">
 
-/* -------------------------
-   花びら生成
-------------------------- */
+</head>
 
-petals.innerHTML = "";
+<body>
 
-for(let i = 0; i < 18; i++){
+<!-- 花びらレイヤー -->
+<div id="petals"></div>
 
-    const petal = document.createElement("div");
+<div class="container">
 
-    petal.className = "petal";
+    <!-- タイトル -->
 
-    petal.style.left = Math.random()*100 + "vw";
+    <section id="titleScreen">
 
-    petal.style.top = -(Math.random()*120) + "px";
+        <h1>Beautiful Harmony</h1>
 
-    petal.style.opacity =
-        0.25 + Math.random()*0.45;
+        <p class="copy">
 
-    petal.style.animationDelay =
-        -(Math.random()*20) + "s";
+            Create Balance.<br>
+            Create Beauty.
 
-    petal.style.animationDuration =
-        14 + Math.random()*8 + "s";
+        </p>
 
-    petal.style.setProperty(
-        "--drift",
-        (-70 + Math.random()*140) + "px"
-    );
+        <p class="subcopy">
 
-    petals.appendChild(petal);
+            Every piece has its perfect place.
 
-}
+        </p>
 
+        <button id="playButton">
 
-/* -------------------------
-   タイルデータ
-------------------------- */
+            Play
 
-const colors=[
+        </button>
 
-    "pink","pink","pink","pink",
+    </section>
 
-    "rose","rose","rose","rose",
+    <!-- テーマ選択 -->
 
-    "blue","blue","blue","blue",
+    <section id="themeScreen" class="hidden">
 
-    "purple","purple","purple","purple",
+        <h2>Theme</h2>
 
-    "green","green","green","green",
+        <div class="themeButtons">
 
-    "silver","silver","silver","silver","silver"
+            <button id="colorsButton">
 
-];
+                🎨 Colors
 
-const symbols=[
+            </button>
 
-    "♥","♥","♥","♥","♥","♥","♥",
+            <button disabled>
 
-    "♦","♦","♦","♦","♦","♦",
+                💐 Bouquet
 
-    "♠","♠","♠","♠","♠","♠",
+            </button>
 
-    "♣","♣","♣","♣","♣","♣"
+            <button disabled>
 
-];
+                👩 Girls
 
+            </button>
 
-/* -------------------------
-   シャッフル
-------------------------- */
+            <button disabled>
 
-function shuffle(array){
+                ⚔️ Generals
 
-    for(let i=array.length-1;i>0;i--){
+            </button>
 
-        const j=Math.floor(Math.random()*(i+1));
+        </div>
 
-        [array[i],array[j]]=[array[j],array[i]];
+        <div class="bestBox">
 
-    }
+            <p>Best Harmony</p>
 
-}
+            <h3>--%</h3>
 
+        </div>
 
-/* =======================================================
-   ドラッグ
-======================================================= */
+    </section>
 
-let draggedTile = null;
-let startX = 0;
-let startY = 0;
-let currentX = 0;
-let currentY = 0;
+    <!-- Colors -->
 
+    <section id="colorsScreen" class="hidden">
 
-/* -------------------------
-   ドラッグ開始
-------------------------- */
+        <div class="header">
 
-function pointerDown(e){
+            <h2>🎨 Colors</h2>
 
-    if(e.pointerType === "mouse" && e.button !== 0){
-        return;
-    }
+            <button id="backButton">
 
-    draggedTile = e.currentTarget;
+                ← Theme
 
-    startX = e.clientX;
-    startY = e.clientY;
+            </button>
 
-    currentX = startX;
-    currentY = startY;
+        </div>
 
-    draggedTile.setPointerCapture(e.pointerId);
+        <!-- JavaScriptがここへ25枚生成 -->
 
-    draggedTile.classList.add("dragging");
+        <div id="board"></div>
 
-    e.preventDefault();
+        <button id="finishButton">
 
-}
+            満足
 
+        </button>
 
-/* -------------------------
-   ドラッグ中
-------------------------- */
+    </section>
 
-function pointerMove(e){
+    <!-- 結果画面（まだ仮） -->
 
-    if(!draggedTile) return;
+    <section id="resultScreen" class="hidden">
 
-    currentX = e.clientX;
-    currentY = e.clientY;
+        <h2>Harmony</h2>
 
-    /*
-       指が少し動いたら、
-       タイルを実際に指についてこさせる
-    */
+        <h1 id="scoreText">
 
-    const dx = currentX - startX;
-    const dy = currentY - startY;
+            92%
 
-    draggedTile.style.translate =
-        dx + "px " + dy + "px";
+        </h1>
 
-    e.preventDefault();
+        <p>
 
-}
+            ※採点画面は次回実装
 
+        </p>
 
-/* -------------------------
-   ドラッグ終了
-------------------------- */
+        <button id="retryButton">
 
-function pointerUp(e){
+            Themeへ戻る
 
-    if(!draggedTile) return;
+        </button>
 
-    const tile = draggedTile;
+    </section>
 
-    /*
-       指についていた移動を一旦リセット
-    */
+</div>
 
-    tile.style.translate = "";
+<script src="main.js"></script>
 
-    /*
-       他のタイルを探す
-    */
+</body>
 
-    const tiles = [
-        ...board.querySelectorAll(".tile")
-    ].filter(t => t !== tile);
-
-    let target = null;
-
-    let shortest = Infinity;
-
-    tiles.forEach(other => {
-
-        const rect = other.getBoundingClientRect();
-
-        const centerX =
-            rect.left + rect.width / 2;
-
-        const centerY =
-            rect.top + rect.height / 2;
-
-        const distance = Math.hypot(
-            e.clientX - centerX,
-            e.clientY - centerY
-        );
-
-        if(distance < shortest){
-
-            shortest = distance;
-
-            target = other;
-
-        }
-
-    });
-
-
-    /*
-       タイルの上で離した場合だけ交換
-    */
-
-    if(target && shortest < 45){
-
-        const tileLeft =
-            tile.style.left;
-
-        const tileTop =
-            tile.style.top;
-
-        tile.style.left =
-            target.style.left;
-
-        tile.style.top =
-            target.style.top;
-
-        target.style.left =
-            tileLeft;
-
-        target.style.top =
-            tileTop;
-
-    }
-
-
-    tile.classList.remove("dragging");
-
-    try{
-        tile.releasePointerCapture(e.pointerId);
-    }catch(error){}
-
-    draggedTile = null;
-
-    e.preventDefault();
-
-}
-
-
-/* -------------------------
-   ドラッグ機能登録
-------------------------- */
-
-function enableDragging(tile){
-
-    tile.addEventListener(
-        "pointerdown",
-        pointerDown
-    );
-
-    tile.addEventListener(
-        "pointermove",
-        pointerMove
-    );
-
-    tile.addEventListener(
-        "pointerup",
-        pointerUp
-    );
-
-    tile.addEventListener(
-        "pointercancel",
-        pointerUp
-    );
-
-}
-
-
-/* =======================================================
-   盤面生成
-======================================================= */
-
-function createBoard(){
-
-    board.innerHTML="";
-
-    const c=[...colors];
-    const s=[...symbols];
-
-    shuffle(c);
-    shuffle(s);
-
-    const tiaras=[];
-
-    while(tiaras.length<5){
-
-        const n=Math.floor(Math.random()*25);
-
-        if(!tiaras.includes(n)){
-
-            tiaras.push(n);
-
-        }
-
-    }
-
-
-    const STEP_X=62;
-    const STEP_Y=50;
-    const OFFSET=31;
-
-
-    for(let row=0;row<5;row++){
-
-        for(let col=0;col<5;col++){
-
-            const i=row*5+col;
-
-            const tile=document.createElement("div");
-
-            tile.className =
-                "tile " + c[i];
-
-
-            const span =
-                document.createElement("span");
-
-            span.className="symbol";
-
-            span.textContent=s[i];
-
-            tile.appendChild(span);
-
-
-            /*
-               ティアラ
-            */
-
-            if(tiaras.includes(i)){
-
-                const crown =
-                    document.createElement("div");
-
-                crown.className="crown";
-
-                crown.textContent="👑";
-
-                tile.appendChild(crown);
-
-            }
-
-
-            /*
-               初期位置
-            */
-
-            const x =
-                col*STEP_X +
-                (row%2)*OFFSET;
-
-            const y =
-                row*STEP_Y;
-
-            tile.style.left =
-                x+"px";
-
-            tile.style.top =
-                y+"px";
-
-
-            /*
-               ドラッグ登録
-            */
-
-            enableDragging(tile);
-
-
-            board.appendChild(tile);
-
-        }
-
-    }
-
-}
-
-
-/* =======================================================
-   画面遷移
-======================================================= */
-
-playButton.onclick=()=>{
-
-    titleScreen.classList.add("hidden");
-
-    themeScreen.classList.remove("hidden");
-
-};
-
-
-colorsButton.onclick=()=>{
-
-    themeScreen.classList.add("hidden");
-
-    colorsScreen.classList.remove("hidden");
-
-    createBoard();
-
-};
-
-
-backButton.onclick=()=>{
-
-    colorsScreen.classList.add("hidden");
-
-    themeScreen.classList.remove("hidden");
-
-};
-
-
-finishButton.onclick=()=>{
-
-    colorsScreen.classList.add("hidden");
-
-    resultScreen.classList.remove("hidden");
-
-};
-
-
-retryButton.onclick=()=>{
-
-    resultScreen.classList.add("hidden");
-
-    themeScreen.classList.remove("hidden");
-
-};
+</html>
