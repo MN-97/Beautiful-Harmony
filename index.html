@@ -1,6 +1,6 @@
 /* =======================================================
    Beautiful Harmony
-   Version 0.6.0
+   Version 0.6.1
 ======================================================= */
 
 const titleScreen = document.getElementById("titleScreen");
@@ -35,21 +35,18 @@ for(let i = 0; i < 18; i++){
     petal.style.top = -(Math.random()*120) + "px";
 
     petal.style.opacity =
-        (0.25 + Math.random()*0.45);
+        0.25 + Math.random()*0.45;
 
     petal.style.animationDelay =
         -(Math.random()*20) + "s";
 
     petal.style.animationDuration =
-        (14 + Math.random()*8) + "s";
+        14 + Math.random()*8 + "s";
 
     petal.style.setProperty(
         "--drift",
         (-70 + Math.random()*140) + "px"
     );
-
-    petal.style.transform =
-        "scale(" + (0.7 + Math.random()*0.8) + ")";
 
     petals.appendChild(petal);
 
@@ -62,29 +59,29 @@ for(let i = 0; i < 18; i++){
 
 const colors=[
 
-"pink","pink","pink","pink",
+    "pink","pink","pink","pink",
 
-"rose","rose","rose","rose",
+    "rose","rose","rose","rose",
 
-"blue","blue","blue","blue",
+    "blue","blue","blue","blue",
 
-"purple","purple","purple","purple",
+    "purple","purple","purple","purple",
 
-"green","green","green","green",
+    "green","green","green","green",
 
-"silver","silver","silver","silver","silver"
+    "silver","silver","silver","silver","silver"
 
 ];
 
 const symbols=[
 
-"♥","♥","♥","♥","♥","♥","♥",
+    "♥","♥","♥","♥","♥","♥","♥",
 
-"♦","♦","♦","♦","♦","♦",
+    "♦","♦","♦","♦","♦","♦",
 
-"♠","♠","♠","♠","♠","♠",
+    "♠","♠","♠","♠","♠","♠",
 
-"♣","♣","♣","♣","♣","♣"
+    "♣","♣","♣","♣","♣","♣"
 
 ];
 
@@ -106,33 +103,65 @@ function shuffle(array){
 }
 
 
-/* -------------------------
-   ドラッグ用変数
-------------------------- */
+/* =======================================================
+   ドラッグ
+======================================================= */
 
 let draggedTile = null;
+let startX = 0;
+let startY = 0;
+let currentX = 0;
+let currentY = 0;
 
 
 /* -------------------------
    ドラッグ開始
 ------------------------- */
 
-function startDrag(e){
+function pointerDown(e){
+
+    if(e.pointerType === "mouse" && e.button !== 0){
+        return;
+    }
 
     draggedTile = e.currentTarget;
 
+    startX = e.clientX;
+    startY = e.clientY;
+
+    currentX = startX;
+    currentY = startY;
+
+    draggedTile.setPointerCapture(e.pointerId);
+
     draggedTile.classList.add("dragging");
 
+    e.preventDefault();
+
+}
+
+
+/* -------------------------
+   ドラッグ中
+------------------------- */
+
+function pointerMove(e){
+
+    if(!draggedTile) return;
+
+    currentX = e.clientX;
+    currentY = e.clientY;
+
     /*
-       ドラッグ中は、そのタイル自身が
-       下のタイルの判定を邪魔しないようにする
+       指が少し動いたら、
+       タイルを実際に指についてこさせる
     */
 
-    draggedTile.style.pointerEvents = "none";
+    const dx = currentX - startX;
+    const dy = currentY - startY;
 
-    /*
-       iPhoneでスクロールなどが起きないように
-    */
+    draggedTile.style.translate =
+        dx + "px " + dy + "px";
 
     e.preventDefault();
 
@@ -143,40 +172,50 @@ function startDrag(e){
    ドラッグ終了
 ------------------------- */
 
-function endDrag(e){
+function pointerUp(e){
 
     if(!draggedTile) return;
 
-    const pointerX = e.clientX;
-    const pointerY = e.clientY;
+    const tile = draggedTile;
 
     /*
-       ドラッグ中のタイル以外から
-       一番近いタイルを探す
+       指についていた移動を一旦リセット
     */
 
-    const tiles = [...board.querySelectorAll(".tile")]
-        .filter(tile => tile !== draggedTile);
+    tile.style.translate = "";
 
-    let nearestTile = null;
-    let nearestDistance = Infinity;
+    /*
+       他のタイルを探す
+    */
 
-    tiles.forEach(tile => {
+    const tiles = [
+        ...board.querySelectorAll(".tile")
+    ].filter(t => t !== tile);
 
-        const rect = tile.getBoundingClientRect();
+    let target = null;
 
-        const centerX = rect.left + rect.width / 2;
-        const centerY = rect.top + rect.height / 2;
+    let shortest = Infinity;
+
+    tiles.forEach(other => {
+
+        const rect = other.getBoundingClientRect();
+
+        const centerX =
+            rect.left + rect.width / 2;
+
+        const centerY =
+            rect.top + rect.height / 2;
 
         const distance = Math.hypot(
-            pointerX - centerX,
-            pointerY - centerY
+            e.clientX - centerX,
+            e.clientY - centerY
         );
 
-        if(distance < nearestDistance){
+        if(distance < shortest){
 
-            nearestDistance = distance;
-            nearestTile = tile;
+            shortest = distance;
+
+            target = other;
 
         }
 
@@ -184,62 +223,77 @@ function endDrag(e){
 
 
     /*
-       ある程度近いタイルの上で離した場合だけ交換
+       タイルの上で離した場合だけ交換
     */
 
-    if(nearestTile && nearestDistance < 45){
+    if(target && shortest < 45){
 
-        const draggedLeft = draggedTile.style.left;
-        const draggedTop = draggedTile.style.top;
+        const tileLeft =
+            tile.style.left;
 
-        const targetLeft = nearestTile.style.left;
-        const targetTop = nearestTile.style.top;
+        const tileTop =
+            tile.style.top;
 
-        draggedTile.style.left = targetLeft;
-        draggedTile.style.top = targetTop;
+        tile.style.left =
+            target.style.left;
 
-        nearestTile.style.left = draggedLeft;
-        nearestTile.style.top = draggedTop;
+        tile.style.top =
+            target.style.top;
+
+        target.style.left =
+            tileLeft;
+
+        target.style.top =
+            tileTop;
 
     }
 
 
-    draggedTile.style.pointerEvents = "";
+    tile.classList.remove("dragging");
 
-    draggedTile.classList.remove("dragging");
+    try{
+        tile.releasePointerCapture(e.pointerId);
+    }catch(error){}
 
     draggedTile = null;
+
+    e.preventDefault();
 
 }
 
 
 /* -------------------------
-   タイルにドラッグ機能を追加
+   ドラッグ機能登録
 ------------------------- */
 
 function enableDragging(tile){
 
     tile.addEventListener(
         "pointerdown",
-        startDrag
+        pointerDown
+    );
+
+    tile.addEventListener(
+        "pointermove",
+        pointerMove
     );
 
     tile.addEventListener(
         "pointerup",
-        endDrag
+        pointerUp
     );
 
     tile.addEventListener(
         "pointercancel",
-        endDrag
+        pointerUp
     );
 
 }
 
 
-/* -------------------------
+/* =======================================================
    盤面生成
-------------------------- */
+======================================================= */
 
 function createBoard(){
 
@@ -279,10 +333,12 @@ function createBoard(){
 
             const tile=document.createElement("div");
 
-            tile.className="tile "+c[i];
+            tile.className =
+                "tile " + c[i];
 
 
-            const span=document.createElement("span");
+            const span =
+                document.createElement("span");
 
             span.className="symbol";
 
@@ -297,7 +353,8 @@ function createBoard(){
 
             if(tiaras.includes(i)){
 
-                const crown=document.createElement("div");
+                const crown =
+                    document.createElement("div");
 
                 crown.className="crown";
 
@@ -309,18 +366,25 @@ function createBoard(){
 
 
             /*
-               タイル位置
+               初期位置
             */
 
-            const x=col*STEP_X+(row%2)*OFFSET;
-            const y=row*STEP_Y;
+            const x =
+                col*STEP_X +
+                (row%2)*OFFSET;
 
-            tile.style.left=x+"px";
-            tile.style.top=y+"px";
+            const y =
+                row*STEP_Y;
+
+            tile.style.left =
+                x+"px";
+
+            tile.style.top =
+                y+"px";
 
 
             /*
-               ドラッグ機能
+               ドラッグ登録
             */
 
             enableDragging(tile);
@@ -335,9 +399,9 @@ function createBoard(){
 }
 
 
-/* -------------------------
+/* =======================================================
    画面遷移
-------------------------- */
+======================================================= */
 
 playButton.onclick=()=>{
 
