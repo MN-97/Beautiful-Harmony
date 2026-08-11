@@ -1046,7 +1046,7 @@ function createBoard(){
 
         const n =
             Math.floor(
-                Math.random() * 25
+                Math.random() * 35
             );
 
 
