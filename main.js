@@ -1067,16 +1067,16 @@ function createBoard(){
 
 
     for(
-        let row = 0;
-        row < 5;
-        row++
-    ){
+    let row = 0;
+    row < 7;
+    row++
+){
 
-        for(
-            let col = 0;
-            col < 5;
-            col++
-        ){
+    for(
+        let col = 0;
+        col < 5;
+        col++
+    ){
 
             const i =
                 row * 5 + col;
