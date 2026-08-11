@@ -477,6 +477,16 @@ box-shadow:
 
 }
 
+.yellow{
+    background:
+        radial-gradient(
+            circle at 35% 30%,
+            #fffde0 0%,
+            #f8ed91 45%,
+            #e8d866 100%
+        );
+}
+
 /* --------------------------
    満足ボタン
 --------------------------- */
