@@ -413,9 +413,9 @@ function enableDragging(tile){
 
 function getGridPosition(tile){
 
-    const STEP_X = 53;
-    const STEP_Y = 47;
-    const OFFSET = 29;
+    const STEP_X = 56;
+    const STEP_Y = 50;
+    const OFFSET = 31;
 
 
     const top =
@@ -1061,9 +1061,9 @@ function createBoard(){
     }
 
 
-    const STEP_X = 53;
-    const STEP_Y = 47;
-    const OFFSET = 29;
+    const STEP_X = 56;
+    const STEP_Y = 50;
+    const OFFSET = 31;
 
 
     for(
