@@ -1041,7 +1041,7 @@ function createBoard(){
 
 
     while(
-        tiaras.length < 5
+        tiaras.length < 6
     ){
 
         const n =
