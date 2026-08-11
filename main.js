@@ -1,6 +1,6 @@
 /* =======================================================
    Beautiful Harmony
-   Version 0.7.0
+   Version 0.8.0
 ======================================================= */
 
 
@@ -23,7 +23,7 @@ const petals = document.getElementById("petals");
 
 
 /* =======================================================
-   花びら生成
+   花びら
 ======================================================= */
 
 petals.innerHTML = "";
@@ -60,7 +60,7 @@ for(let i = 0; i < 18; i++){
 
 
 /* =======================================================
-   タイルデータ
+   色
 ======================================================= */
 
 const colors = [
@@ -79,6 +79,10 @@ const colors = [
 
 ];
 
+
+/* =======================================================
+   マーク
+======================================================= */
 
 const symbols = [
 
@@ -99,15 +103,104 @@ const symbols = [
 
 function shuffle(array){
 
-    for(let i = array.length - 1; i > 0; i--){
+    for(
+        let i = array.length - 1;
+        i > 0;
+        i--
+    ){
 
         const j =
-            Math.floor(Math.random() * (i + 1));
+            Math.floor(
+                Math.random() * (i + 1)
+            );
 
         [array[i], array[j]] =
         [array[j], array[i]];
 
     }
+
+}
+
+
+/* =======================================================
+   タイルの組み合わせを作る
+======================================================= */
+
+function createTileData(){
+
+    /*
+       24種類の組み合わせを作る。
+
+       6色 × 4マーク = 24
+    */
+
+    const colorNames = [
+        "pink",
+        "rose",
+        "blue",
+        "purple",
+        "green",
+        "silver"
+    ];
+
+    const symbolNames = [
+        "♥",
+        "♦",
+        "♠",
+        "♣"
+    ];
+
+
+    const combinations = [];
+
+
+    colorNames.forEach(color => {
+
+        symbolNames.forEach(symbol => {
+
+            combinations.push({
+                color: color,
+                symbol: symbol
+            });
+
+        });
+
+    });
+
+
+    /*
+       24枚をシャッフル
+    */
+
+    shuffle(combinations);
+
+
+    /*
+       25枚必要なので、
+       24種類のうち1枚だけ追加する。
+
+       → 重複は最大1組だけ。
+    */
+
+    const extra =
+        combinations[
+            Math.floor(
+                Math.random() *
+                combinations.length
+            )
+        ];
+
+
+    combinations.push({
+        color: extra.color,
+        symbol: extra.symbol
+    });
+
+
+    shuffle(combinations);
+
+
+    return combinations;
 
 }
 
@@ -126,7 +219,7 @@ let currentY = 0;
 
 
 /* -------------------------
-   ドラッグ開始
+   開始
 ------------------------- */
 
 function pointerDown(e){
@@ -138,6 +231,7 @@ function pointerDown(e){
         return;
     }
 
+
     draggedTile = e.currentTarget;
 
     startX = e.clientX;
@@ -146,9 +240,15 @@ function pointerDown(e){
     currentX = startX;
     currentY = startY;
 
-    draggedTile.setPointerCapture(e.pointerId);
 
-    draggedTile.classList.add("dragging");
+    draggedTile.setPointerCapture(
+        e.pointerId
+    );
+
+    draggedTile.classList.add(
+        "dragging"
+    );
+
 
     e.preventDefault();
 
@@ -156,15 +256,17 @@ function pointerDown(e){
 
 
 /* -------------------------
-   ドラッグ中
+   移動
 ------------------------- */
 
 function pointerMove(e){
 
     if(!draggedTile) return;
 
+
     currentX = e.clientX;
     currentY = e.clientY;
+
 
     const dx =
         currentX - startX;
@@ -172,8 +274,10 @@ function pointerMove(e){
     const dy =
         currentY - startY;
 
+
     draggedTile.style.translate =
         dx + "px " + dy + "px";
+
 
     e.preventDefault();
 
@@ -181,29 +285,25 @@ function pointerMove(e){
 
 
 /* -------------------------
-   ドラッグ終了
+   終了
 ------------------------- */
 
 function pointerUp(e){
 
     if(!draggedTile) return;
 
+
     const tile = draggedTile;
 
-    /*
-       指についていた移動をリセット
-    */
 
     tile.style.translate = "";
 
 
-    /*
-       他のタイルを取得
-    */
-
     const tiles = [
         ...board.querySelectorAll(".tile")
-    ].filter(t => t !== tile);
+    ].filter(
+        t => t !== tile
+    );
 
 
     let target = null;
@@ -211,27 +311,27 @@ function pointerUp(e){
     let shortest = Infinity;
 
 
-    /*
-       指を離した場所に
-       一番近いタイルを探す
-    */
-
     tiles.forEach(other => {
 
         const rect =
             other.getBoundingClientRect();
 
+
         const centerX =
-            rect.left + rect.width / 2;
+            rect.left +
+            rect.width / 2;
 
         const centerY =
-            rect.top + rect.height / 2;
+            rect.top +
+            rect.height / 2;
+
 
         const distance =
             Math.hypot(
                 e.clientX - centerX,
                 e.clientY - centerY
             );
+
 
         if(distance < shortest){
 
@@ -245,7 +345,7 @@ function pointerUp(e){
 
 
     /*
-       45px以内なら交換
+       近いタイルと交換
     */
 
     if(
@@ -259,11 +359,13 @@ function pointerUp(e){
         const tileTop =
             tile.style.top;
 
+
         tile.style.left =
             target.style.left;
 
         tile.style.top =
             target.style.top;
+
 
         target.style.left =
             tileLeft;
@@ -274,7 +376,9 @@ function pointerUp(e){
     }
 
 
-    tile.classList.remove("dragging");
+    tile.classList.remove(
+        "dragging"
+    );
 
 
     try{
@@ -294,7 +398,7 @@ function pointerUp(e){
 
 
 /* -------------------------
-   ドラッグ機能登録
+   ドラッグ登録
 ------------------------- */
 
 function enableDragging(tile){
@@ -323,7 +427,7 @@ function enableDragging(tile){
 
 
 /* =======================================================
-   盤面上の位置を取得
+   グリッド位置
 ======================================================= */
 
 function getGridPosition(tile){
@@ -332,24 +436,23 @@ function getGridPosition(tile){
     const STEP_Y = 50;
     const OFFSET = 31;
 
+
     const top =
-        parseFloat(tile.style.top);
+        parseFloat(
+            tile.style.top
+        );
 
     const left =
-        parseFloat(tile.style.left);
+        parseFloat(
+            tile.style.left
+        );
 
-
-    /*
-       何行目か
-    */
 
     const row =
-        Math.round(top / STEP_Y);
+        Math.round(
+            top / STEP_Y
+        );
 
-
-    /*
-       奇数行は31px右にずれている
-    */
 
     const rowOffset =
         (row % 2) * OFFSET;
@@ -357,20 +460,21 @@ function getGridPosition(tile){
 
     const col =
         Math.round(
-            (left - rowOffset) / STEP_X
+            (left - rowOffset) /
+            STEP_X
         );
 
 
     return {
-        row,
-        col
+        row: row,
+        col: col
     };
 
 }
 
 
 /* =======================================================
-   2つのタイル間の距離
+   2タイル間の距離
 ======================================================= */
 
 function getDistance(a, b){
@@ -380,6 +484,7 @@ function getDistance(a, b){
 
     const dy =
         a.row - b.row;
+
 
     return Math.sqrt(
         dx * dx +
@@ -396,15 +501,18 @@ function getDistance(a, b){
 function getProximityPenalty(a, b){
 
     const dx =
-        Math.abs(a.col - b.col);
+        Math.abs(
+            a.col - b.col
+        );
 
     const dy =
-        Math.abs(a.row - b.row);
+        Math.abs(
+            a.row - b.row
+        );
 
 
     /*
        隣接
-       縦・横・斜め
     */
 
     if(
@@ -435,14 +543,10 @@ function getProximityPenalty(a, b){
 
 
 /* =======================================================
-   グループの距離を採点
+   グループ採点
 ======================================================= */
 
 function scoreGroup(tiles){
-
-    /*
-       タイルが2枚未満なら満点
-    */
 
     if(tiles.length < 2){
 
@@ -452,18 +556,19 @@ function scoreGroup(tiles){
 
 
     const positions =
-        tiles.map(tile =>
-            getGridPosition(tile)
+        tiles.map(
+            tile =>
+                getGridPosition(tile)
         );
 
 
     const distances = [];
 
-    let penalty = 0;
+    let proximityPenalty = 0;
 
 
     /*
-       すべてのペアを比較
+       全ペアを調べる
     */
 
     for(
@@ -485,30 +590,49 @@ function scoreGroup(tiles){
                 positions[j];
 
 
-            /*
-               距離
-            */
+            const distance =
+                getDistance(a, b);
+
 
             distances.push(
-                getDistance(a, b)
+                distance
             );
 
 
-            /*
-               近接減点
-            */
-
-            penalty +=
-                getProximityPenalty(a, b);
+            proximityPenalty +=
+                getProximityPenalty(
+                    a,
+                    b
+                );
 
         }
 
     }
 
 
-    /* --------------------------------
-       距離の平均
-    -------------------------------- */
+    /* ===================================================
+       ① 近接スコア
+
+       隣接・2マス以内を評価
+    =================================================== */
+
+    const maxPenalty =
+        distances.length * 5;
+
+
+    const proximityScore =
+        100 -
+        (
+            proximityPenalty /
+            maxPenalty
+        ) * 100;
+
+
+    /* ===================================================
+       ② 距離の偏差
+
+       前よりかなり弱める
+    =================================================== */
 
     const mean =
         distances.reduce(
@@ -517,10 +641,6 @@ function scoreGroup(tiles){
             0
         ) / distances.length;
 
-
-    /* --------------------------------
-       距離の標準偏差
-    -------------------------------- */
 
     const variance =
         distances.reduce(
@@ -535,28 +655,35 @@ function scoreGroup(tiles){
 
 
     const standardDeviation =
-        Math.sqrt(variance);
+        Math.sqrt(
+            variance
+        );
 
 
     /*
-       偏差が小さいほど高得点。
+       偏差が大きいほど減点。
 
-       SD 0 → 100点
-       SDが大きくなるほど減点
+       以前の25倍からかなり緩和。
     */
 
-    const deviationPenalty =
-        standardDeviation * 25;
+    const deviationScore =
+        Math.max(
+            0,
+            100 -
+            standardDeviation * 10
+        );
 
 
-    /*
-       最終点
-    */
+    /* ===================================================
+       ③ 総合
+
+       近接 70%
+       距離の均等さ 30%
+    =================================================== */
 
     const score =
-        100 -
-        deviationPenalty -
-        penalty;
+        proximityScore * 0.70 +
+        deviationScore * 0.30;
 
 
     return Math.max(
@@ -577,12 +704,14 @@ function scoreGroup(tiles){
 function calculateColorBalance(){
 
     const colorNames = [
+
         "pink",
         "rose",
         "blue",
         "purple",
         "green",
         "silver"
+
     ];
 
 
@@ -596,6 +725,7 @@ function calculateColorBalance(){
                 ".tile." + color
             )
         ];
+
 
         scores.push(
             scoreGroup(tiles)
@@ -616,10 +746,12 @@ function calculateColorBalance(){
 function calculateSymbolBalance(){
 
     const symbolNames = [
+
         "♥",
         "♦",
         "♠",
         "♣"
+
     ];
 
 
@@ -638,6 +770,7 @@ function calculateSymbolBalance(){
                 tile.querySelector(
                     ".symbol"
                 );
+
 
             return (
                 span &&
@@ -666,9 +799,11 @@ function calculateSymbolBalance(){
 function calculateTiaraSpread(){
 
     const tiaras = [
+
         ...board.querySelectorAll(
             ".tile"
         )
+
     ].filter(tile => {
 
         return tile.querySelector(
@@ -678,7 +813,9 @@ function calculateTiaraSpread(){
     });
 
 
-    return scoreGroup(tiaras);
+    return scoreGroup(
+        tiaras
+    );
 
 }
 
@@ -689,7 +826,9 @@ function calculateTiaraSpread(){
 
 function average(numbers){
 
-    if(numbers.length === 0){
+    if(
+        numbers.length === 0
+    ){
 
         return 100;
 
@@ -701,7 +840,8 @@ function average(numbers){
             (sum, value) =>
                 sum + value,
             0
-        ) / numbers.length
+        ) /
+        numbers.length
     );
 
 }
@@ -718,18 +858,24 @@ function calculateHarmony(
 ){
 
     /*
-       Color   35%
-       Symbol  35%
-       Tiara   30%
+       色 40%
+       マーク 40%
+       ティアラ 20%
     */
 
     const harmony =
-        colorBalance * 0.35 +
-        symbolBalance * 0.35 +
-        tiaraSpread * 0.30;
+        colorBalance * 0.40 +
+        symbolBalance * 0.40 +
+        tiaraSpread * 0.20;
 
 
-    return harmony;
+    return Math.max(
+        0,
+        Math.min(
+            100,
+            harmony
+        )
+    );
 
 }
 
@@ -743,8 +889,10 @@ function showResults(){
     const colorBalance =
         calculateColorBalance();
 
+
     const symbolBalance =
         calculateSymbolBalance();
+
 
     const tiaraSpread =
         calculateTiaraSpread();
@@ -758,26 +906,29 @@ function showResults(){
         );
 
 
-    /*
-       小数点以下を四捨五入
-    */
-
     const color =
-        Math.round(colorBalance);
+        Math.round(
+            colorBalance
+        );
+
 
     const symbol =
-        Math.round(symbolBalance);
+        Math.round(
+            symbolBalance
+        );
+
 
     const tiara =
-        Math.round(tiaraSpread);
+        Math.round(
+            tiaraSpread
+        );
+
 
     const total =
-        Math.round(harmony);
+        Math.round(
+            harmony
+        );
 
-
-    /*
-       結果画面を作る
-    */
 
     resultScreen.innerHTML = `
 
@@ -817,12 +968,10 @@ function showResults(){
     `;
 
 
-    /*
-       Themeへ戻る
-    */
-
     document
-        .getElementById("retryButton")
+        .getElementById(
+            "retryButton"
+        )
         .onclick = () => {
 
             resultScreen.classList.add(
@@ -835,10 +984,6 @@ function showResults(){
 
         };
 
-
-    /*
-       結果画面表示
-    */
 
     colorsScreen.classList.add(
         "hidden"
@@ -860,12 +1005,12 @@ function createBoard(){
     board.innerHTML = "";
 
 
-    const c = [...colors];
-    const s = [...symbols];
+    /*
+       色×マークの組み合わせを生成
+    */
 
-
-    shuffle(c);
-    shuffle(s);
+    const tileData =
+        createTileData();
 
 
     /*
@@ -875,12 +1020,15 @@ function createBoard(){
     const tiaras = [];
 
 
-    while(tiaras.length < 5){
+    while(
+        tiaras.length < 5
+    ){
 
         const n =
             Math.floor(
                 Math.random() * 25
             );
+
 
         if(
             !tiaras.includes(n)
@@ -914,18 +1062,19 @@ function createBoard(){
                 row * 5 + col;
 
 
-            /*
-               タイル
-            */
-
             const tile =
                 document.createElement(
                     "div"
                 );
 
 
+            /*
+               色
+            */
+
             tile.className =
-                "tile " + c[i];
+                "tile " +
+                tileData[i].color;
 
 
             /*
@@ -937,13 +1086,18 @@ function createBoard(){
                     "span"
                 );
 
+
             span.className =
                 "symbol";
 
-            span.textContent =
-                s[i];
 
-            tile.appendChild(span);
+            span.textContent =
+                tileData[i].symbol;
+
+
+            tile.appendChild(
+                span
+            );
 
 
             /*
@@ -959,13 +1113,18 @@ function createBoard(){
                         "div"
                     );
 
+
                 crown.className =
                     "crown";
+
 
                 crown.textContent =
                     "👑";
 
-                tile.appendChild(crown);
+
+                tile.appendChild(
+                    crown
+                );
 
             }
 
@@ -978,12 +1137,14 @@ function createBoard(){
                 col * STEP_X +
                 (row % 2) * OFFSET;
 
+
             const y =
                 row * STEP_Y;
 
 
             tile.style.left =
                 x + "px";
+
 
             tile.style.top =
                 y + "px";
@@ -993,10 +1154,14 @@ function createBoard(){
                ドラッグ
             */
 
-            enableDragging(tile);
+            enableDragging(
+                tile
+            );
 
 
-            board.appendChild(tile);
+            board.appendChild(
+                tile
+            );
 
         }
 
@@ -1049,10 +1214,6 @@ backButton.onclick = () => {
 
 };
 
-
-/*
-   ★ 満足ボタン
-*/
 
 finishButton.onclick = () => {
 
