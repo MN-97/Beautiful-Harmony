@@ -437,9 +437,9 @@ box-shadow:
     background:
         radial-gradient(
             circle at 35% 30%,
-            #ffe5df 0%,
-            #f6b9aa 45%,
-            #e9a496 100%
+            #fff0f6 0%,
+            #f2c5d8 45%,
+            #e5abc5 100%
         );
 }
 
