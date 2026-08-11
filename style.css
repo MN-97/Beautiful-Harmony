@@ -451,7 +451,7 @@ button:disabled{
 
     left:50%;
 
-    transform:translateX(-50%) rotate(-45deg);
+    transform:translateX(-50%);
 
     font-size:13px;
 
