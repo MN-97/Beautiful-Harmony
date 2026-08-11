@@ -328,6 +328,35 @@ box-shadow:
     touch-action:none;
 }
 
+.tile::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    clip-path:polygon(
+        50% 0%,
+        100% 50%,
+        50% 100%,
+        0% 50%
+    );
+
+    background:
+        radial-gradient(
+            ellipse at 42% 35%,
+            rgba(255,255,255,.65) 0%,
+            rgba(255,255,255,.28) 28%,
+            rgba(255,255,255,0) 58%
+        );
+
+    pointer-events:none;
+
+    z-index:1;
+
+}
+
 .tile span{
 
     
