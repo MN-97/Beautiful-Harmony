@@ -434,15 +434,23 @@ box-shadow:
 /* パステルカラー */
 
 .pink{
-
-    background:#f5cfdc;
-
+    background:
+        radial-gradient(
+            circle at 35% 30%,
+            #ffe5df 0%,
+            #f6b9aa 45%,
+            #e9a496 100%
+        );
 }
 
 .rose{
-
-    background:#e8b7c9;
-
+    background:
+        radial-gradient(
+            circle at 35% 30%,
+            #f6d2d5 0%,
+            #d98c9b 45%,
+            #c87586 100%
+        );
 }
 
 .blue{
