@@ -1,6 +1,6 @@
 /* =======================================================
    Beautiful Harmony
-   Version 0.8.0
+   Version 0.9.0
 ======================================================= */
 
 
@@ -61,38 +61,32 @@ for(let i = 0; i < 18; i++){
 
 /* =======================================================
    色
+   5色 × 5マーク = 25種類
 ======================================================= */
 
-const colors = [
+const colorNames = [
 
-    "pink","pink","pink","pink",
-
-    "rose","rose","rose","rose",
-
-    "blue","blue","blue","blue",
-
-    "purple","purple","purple","purple",
-
-    "green","green","green","green",
-
-    "silver","silver","silver","silver","silver"
+    "pink",
+    "rose",
+    "blue",
+    "purple",
+    "green"
 
 ];
 
 
 /* =======================================================
    マーク
+   ♥ ♦ ♠ ♣ ★
 ======================================================= */
 
-const symbols = [
+const symbolNames = [
 
-    "♥","♥","♥","♥","♥","♥","♥",
-
-    "♦","♦","♦","♦","♦","♦",
-
-    "♠","♠","♠","♠","♠","♠",
-
-    "♣","♣","♣","♣","♣","♣"
+    "♥",
+    "♦",
+    "♠",
+    "♣",
+    "★"
 
 ];
 
@@ -123,33 +117,20 @@ function shuffle(array){
 
 
 /* =======================================================
-   タイルの組み合わせを作る
+   タイルデータ作成
 ======================================================= */
 
 function createTileData(){
 
     /*
-       24種類の組み合わせを作る。
+       5色 × 5マーク
 
-       6色 × 4マーク = 24
+       = 25種類
+
+       すべての組み合わせを
+       1枚ずつ作るので、
+       完全に同じタイルは存在しない。
     */
-
-    const colorNames = [
-        "pink",
-        "rose",
-        "blue",
-        "purple",
-        "green",
-        "silver"
-    ];
-
-    const symbolNames = [
-        "♥",
-        "♦",
-        "♠",
-        "♣"
-    ];
-
 
     const combinations = [];
 
@@ -159,8 +140,10 @@ function createTileData(){
         symbolNames.forEach(symbol => {
 
             combinations.push({
+
                 color: color,
                 symbol: symbol
+
             });
 
         });
@@ -169,33 +152,8 @@ function createTileData(){
 
 
     /*
-       24枚をシャッフル
+       25種類すべてをシャッフル
     */
-
-    shuffle(combinations);
-
-
-    /*
-       25枚必要なので、
-       24種類のうち1枚だけ追加する。
-
-       → 重複は最大1組だけ。
-    */
-
-    const extra =
-        combinations[
-            Math.floor(
-                Math.random() *
-                combinations.length
-            )
-        ];
-
-
-    combinations.push({
-        color: extra.color,
-        symbol: extra.symbol
-    });
-
 
     shuffle(combinations);
 
@@ -219,7 +177,7 @@ let currentY = 0;
 
 
 /* -------------------------
-   開始
+   ドラッグ開始
 ------------------------- */
 
 function pointerDown(e){
@@ -228,11 +186,15 @@ function pointerDown(e){
         e.pointerType === "mouse" &&
         e.button !== 0
     ){
+
         return;
+
     }
 
 
-    draggedTile = e.currentTarget;
+    draggedTile =
+        e.currentTarget;
+
 
     startX = e.clientX;
     startY = e.clientY;
@@ -245,6 +207,7 @@ function pointerDown(e){
         e.pointerId
     );
 
+
     draggedTile.classList.add(
         "dragging"
     );
@@ -256,12 +219,16 @@ function pointerDown(e){
 
 
 /* -------------------------
-   移動
+   ドラッグ中
 ------------------------- */
 
 function pointerMove(e){
 
-    if(!draggedTile) return;
+    if(!draggedTile){
+
+        return;
+
+    }
 
 
     currentX = e.clientX;
@@ -285,22 +252,29 @@ function pointerMove(e){
 
 
 /* -------------------------
-   終了
+   ドラッグ終了
 ------------------------- */
 
 function pointerUp(e){
 
-    if(!draggedTile) return;
+    if(!draggedTile){
+
+        return;
+
+    }
 
 
-    const tile = draggedTile;
+    const tile =
+        draggedTile;
 
 
     tile.style.translate = "";
 
 
     const tiles = [
+
         ...board.querySelectorAll(".tile")
+
     ].filter(
         t => t !== tile
     );
@@ -321,6 +295,7 @@ function pointerUp(e){
             rect.left +
             rect.width / 2;
 
+
         const centerY =
             rect.top +
             rect.height / 2;
@@ -328,12 +303,17 @@ function pointerUp(e){
 
         const distance =
             Math.hypot(
+
                 e.clientX - centerX,
+
                 e.clientY - centerY
+
             );
 
 
-        if(distance < shortest){
+        if(
+            distance < shortest
+        ){
 
             shortest = distance;
 
@@ -345,7 +325,7 @@ function pointerUp(e){
 
 
     /*
-       近いタイルと交換
+       一番近いタイルと交換
     */
 
     if(
@@ -392,14 +372,15 @@ function pointerUp(e){
 
     draggedTile = null;
 
+
     e.preventDefault();
 
 }
 
 
-/* -------------------------
+/* =======================================================
    ドラッグ登録
-------------------------- */
+======================================================= */
 
 function enableDragging(tile){
 
@@ -427,7 +408,7 @@ function enableDragging(tile){
 
 
 /* =======================================================
-   グリッド位置
+   盤面上の位置を取得
 ======================================================= */
 
 function getGridPosition(tile){
@@ -441,6 +422,7 @@ function getGridPosition(tile){
         parseFloat(
             tile.style.top
         );
+
 
     const left =
         parseFloat(
@@ -466,15 +448,18 @@ function getGridPosition(tile){
 
 
     return {
+
         row: row,
+
         col: col
+
     };
 
 }
 
 
 /* =======================================================
-   2タイル間の距離
+   タイル間の距離
 ======================================================= */
 
 function getDistance(a, b){
@@ -504,6 +489,7 @@ function getProximityPenalty(a, b){
         Math.abs(
             a.col - b.col
         );
+
 
     const dy =
         Math.abs(
@@ -548,7 +534,9 @@ function getProximityPenalty(a, b){
 
 function scoreGroup(tiles){
 
-    if(tiles.length < 2){
+    if(
+        tiles.length < 2
+    ){
 
         return 100;
 
@@ -591,7 +579,10 @@ function scoreGroup(tiles){
 
 
             const distance =
-                getDistance(a, b);
+                getDistance(
+                    a,
+                    b
+                );
 
 
             distances.push(
@@ -611,9 +602,7 @@ function scoreGroup(tiles){
 
 
     /* ===================================================
-       ① 近接スコア
-
-       隣接・2マス以内を評価
+       近接スコア
     =================================================== */
 
     const maxPenalty =
@@ -629,9 +618,7 @@ function scoreGroup(tiles){
 
 
     /* ===================================================
-       ② 距離の偏差
-
-       前よりかなり弱める
+       距離の偏差
     =================================================== */
 
     const mean =
@@ -661,9 +648,7 @@ function scoreGroup(tiles){
 
 
     /*
-       偏差が大きいほど減点。
-
-       以前の25倍からかなり緩和。
+       偏差による減点は弱め
     */
 
     const deviationScore =
@@ -675,7 +660,7 @@ function scoreGroup(tiles){
 
 
     /* ===================================================
-       ③ 総合
+       総合
 
        近接 70%
        距離の均等さ 30%
@@ -703,27 +688,17 @@ function scoreGroup(tiles){
 
 function calculateColorBalance(){
 
-    const colorNames = [
-
-        "pink",
-        "rose",
-        "blue",
-        "purple",
-        "green",
-        "silver"
-
-    ];
-
-
     const scores = [];
 
 
     colorNames.forEach(color => {
 
         const tiles = [
+
             ...board.querySelectorAll(
                 ".tile." + color
             )
+
         ];
 
 
@@ -745,25 +720,17 @@ function calculateColorBalance(){
 
 function calculateSymbolBalance(){
 
-    const symbolNames = [
-
-        "♥",
-        "♦",
-        "♠",
-        "♣"
-
-    ];
-
-
     const scores = [];
 
 
     symbolNames.forEach(symbol => {
 
         const tiles = [
+
             ...board.querySelectorAll(
                 ".tile"
             )
+
         ].filter(tile => {
 
             const span =
@@ -773,8 +740,12 @@ function calculateSymbolBalance(){
 
 
             return (
+
                 span &&
-                span.textContent === symbol
+
+                span.textContent ===
+                symbol
+
             );
 
         });
@@ -836,12 +807,15 @@ function average(numbers){
 
 
     return (
+
         numbers.reduce(
             (sum, value) =>
                 sum + value,
             0
         ) /
+
         numbers.length
+
     );
 
 }
@@ -852,29 +826,39 @@ function average(numbers){
 ======================================================= */
 
 function calculateHarmony(
+
     colorBalance,
+
     symbolBalance,
+
     tiaraSpread
+
 ){
 
     /*
-       色 40%
-       マーク 40%
+       色       40%
+       マーク   40%
        ティアラ 20%
     */
 
     const harmony =
+
         colorBalance * 0.40 +
+
         symbolBalance * 0.40 +
+
         tiaraSpread * 0.20;
 
 
     return Math.max(
+
         0,
+
         Math.min(
             100,
             harmony
         )
+
     );
 
 }
@@ -900,9 +884,13 @@ function showResults(){
 
     const harmony =
         calculateHarmony(
+
             colorBalance,
+
             symbolBalance,
+
             tiaraSpread
+
         );
 
 
@@ -937,32 +925,63 @@ function showResults(){
         <div class="scoreList">
 
             <div class="scoreItem">
-                <span>Color Balance</span>
-                <strong>${color}%</strong>
+
+                <span>
+                    Color Balance
+                </span>
+
+                <strong>
+                    ${color}%
+                </strong>
+
             </div>
 
-            <div class="scoreItem">
-                <span>Symbol Balance</span>
-                <strong>${symbol}%</strong>
-            </div>
 
             <div class="scoreItem">
-                <span>Tiara Spread</span>
-                <strong>${tiara}%</strong>
+
+                <span>
+                    Symbol Balance
+                </span>
+
+                <strong>
+                    ${symbol}%
+                </strong>
+
+            </div>
+
+
+            <div class="scoreItem">
+
+                <span>
+                    Tiara Spread
+                </span>
+
+                <strong>
+                    ${tiara}%
+                </strong>
+
             </div>
 
         </div>
+
 
         <div class="harmonyResult">
 
-            <p>Harmony</p>
+            <p>
+                Harmony
+            </p>
 
-            <h1>${total}%</h1>
+            <h1>
+                ${total}%
+            </h1>
 
         </div>
 
+
         <button id="retryButton">
+
             Themeへ戻る
+
         </button>
 
     `;
@@ -989,6 +1008,7 @@ function showResults(){
         "hidden"
     );
 
+
     resultScreen.classList.remove(
         "hidden"
     );
@@ -1006,7 +1026,7 @@ function createBoard(){
 
 
     /*
-       色×マークの組み合わせを生成
+       25種類の組み合わせを作る
     */
 
     const tileData =
@@ -1151,7 +1171,7 @@ function createBoard(){
 
 
             /*
-               ドラッグ
+               ドラッグ登録
             */
 
             enableDragging(
